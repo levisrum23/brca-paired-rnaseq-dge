@@ -12,4 +12,4 @@ dependencies:
       - matplotlib==3.11.2
       - seaborn==0.13.2
       - pydeseq2==0.5.4
-# gseapy is added with its exact version in the task that installs it (enrichment).
+      - gseapy==1.3.1
