@@ -6,5 +6,10 @@ dependencies:
   - pip
   - pip:
       - pytest==9.1.1
-# Other packages (pandas, numpy, pydeseq2, scikit-learn, matplotlib, seaborn, gseapy)
-# are added with exact versions in the task that first installs them.
+      - pandas==3.0.6
+      - numpy==2.4.6
+      - scikit-learn==1.9.1
+      - matplotlib==3.11.2
+      - seaborn==0.13.2
+      - pydeseq2==0.5.4
+# gseapy is added with its exact version in the task that installs it (enrichment).
