@@ -1,0 +1,10 @@
+name: brca-dge
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - pip
+  - pip:
+      - pytest==9.1.1
+# Other packages (pandas, numpy, pydeseq2, scikit-learn, matplotlib, seaborn, gseapy)
+# are added with exact versions in the task that first installs them.
