@@ -1,0 +1,4 @@
+metric,value
+genes_total,61151.0
+genes_kept,38362.0
+pca_silhouette,0.3257264462689714

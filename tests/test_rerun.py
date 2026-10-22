@@ -7,7 +7,7 @@ from src.config import DATA_DIR, SEED
 from run_all import check_sanity, run_pipeline
 
 EXPECTED = [
-    "qc_library_sizes.csv", "qc_pca.png", "qc_correlation.png",
+    "qc_library_sizes.csv", "qc_summary.csv", "qc_pca.png", "qc_correlation.png",
     "dge_all.csv", "dge_significant.csv",
     "volcano.png", "ma_plot.png", "top_genes_heatmap.png",
     "enrichment_up_hallmark.csv", "enrichment_up_kegg.csv",
@@ -48,6 +48,7 @@ def test_rerun_from_clean_results(dataset, tmp_path, monkeypatch):
                                 "Adjusted P-value": [0.02], "Odds Ratio": [1.0], "Combined Score": [1.0],
                                 "Genes": ["u0"]})
 
+    monkeypatch.setattr(gseapy, "get_library", lambda name, **k: {"SetA": ["u0", "u1"]})
     monkeypatch.setattr(gseapy, "enrichr", lambda **k: Fake())
     results = tmp_path / "fresh_results"
     assert not results.exists()

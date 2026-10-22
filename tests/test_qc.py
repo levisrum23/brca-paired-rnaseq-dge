@@ -34,3 +34,12 @@ def test_run_qc_writes_outputs(synthetic, tmp_path):
         assert (tmp_path / name).stat().st_size > 0
     sizes = pd.read_csv(tmp_path / "qc_library_sizes.csv", index_col=0)
     assert {"library_size", "possible_outlier"} <= set(sizes.columns)
+
+
+def test_run_qc_writes_summary_with_silhouette(synthetic, tmp_path):
+    counts, meta = synthetic
+    filtered = run_qc(counts, meta, results_dir=tmp_path)
+    summary = pd.read_csv(tmp_path / "qc_summary.csv", index_col=0)["value"]
+    assert summary["genes_total"] == counts.shape[1]
+    assert summary["genes_kept"] == filtered.shape[1]
+    assert abs(summary["pca_silhouette"] - pca_separation(filtered, meta)) < 1e-9

@@ -9,9 +9,15 @@ Last updated: 2026-10-22
 - Real-data result: 38,362 genes tested, 2,823 significant (1,041 up, 1,782 down in tumor).
 
 ## Open items
-- Whole-branch review result (see the end of the session).
+- Whole-branch review done (fresh reviewer, Opus). Two Important findings fixed (see git log). Deferred minors are listed below.
 - MMP11 has 2 reads in this file; cause unknown (`data/DATASET.md`).
 - Only 6 patients: results are exploratory. A second, larger dataset would strengthen the project.
+
+## Deferred minor review notes
+- NaN-padj genes are absent from volcano/MA plots (noted in the report).
+- No fold-change shrinkage; low-count filter is loose (noted in the report).
+- PCA uses log1p of raw counts (not size-normalized) and axes show no % variance.
+- Download has no timeout; loader does not validate `condition` values or cast `patient` to string.
 
 ## Optional extras (not asked for)
 - Validate the top genes in a larger dataset (for example a TCGA-BRCA processed table).

@@ -26,18 +26,21 @@ def test_empty_gene_list_returns_empty_frame_without_network(monkeypatch):
     assert {"Term", "Adjusted P-value"} <= set(out.columns)
 
 
-def test_enrichr_called_with_valid_human_organism(monkeypatch):
+def test_enrichr_uses_library_dict_with_tested_genes_as_background(monkeypatch):
     seen = {}
+    library = {"SetA": ["TP53", "MYC"], "SetB": ["EGFR"]}
 
     class Fake:
         results = pd.DataFrame({"Term": ["t"], "Adjusted P-value": [0.01]})
+
+    monkeypatch.setattr(gseapy, "get_library", lambda name, **k: library if name == "MSigDB_Hallmark_2020" else None)
 
     def fake_enrichr(**kwargs):
         seen.update(kwargs)
         return Fake()
 
     monkeypatch.setattr(gseapy, "enrichr", fake_enrichr)
-    run_enrichment(["TP53"], "MSigDB_Hallmark_2020")
-    assert seen["organism"] == "human"
-    assert seen["gene_sets"] == "MSigDB_Hallmark_2020"
+    run_enrichment(["TP53"], "MSigDB_Hallmark_2020", background=["TP53", "MYC", "EGFR", "KRAS"])
+    assert seen["gene_sets"] == library
     assert seen["gene_list"] == ["TP53"]
+    assert sorted(seen["background"]) == ["EGFR", "KRAS", "MYC", "TP53"]

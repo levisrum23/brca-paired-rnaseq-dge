@@ -61,6 +61,9 @@ def run_qc(counts: pd.DataFrame, meta: pd.DataFrame, results_dir: Path = RESULTS
     g.fig.suptitle("Sample correlation (Spearman, log1p)", y=1.02)
     g.savefig(results_dir / "qc_correlation.png", dpi=150)
     plt.close(g.fig)
+    pd.Series({"genes_total": counts.shape[1], "genes_kept": filtered.shape[1],
+               "pca_silhouette": pca_separation(filtered, meta)}, name="value").rename_axis("metric").to_csv(
+        results_dir / "qc_summary.csv")
     return filtered
 
 

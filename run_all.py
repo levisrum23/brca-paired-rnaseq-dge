@@ -42,7 +42,7 @@ def run_pipeline(counts_path: Path, meta_path: Path, markers_path: Path, results
     up, down = split_up_down(sig)
     for direction, genes in (("up", up), ("down", down)):
         for key, library in LIBRARIES.items():
-            run_enrichment(genes, library).to_csv(results_dir / f"enrichment_{direction}_{key}.csv", index=False)
+            run_enrichment(genes, library, list(res.index)).to_csv(results_dir / f"enrichment_{direction}_{key}.csv", index=False)
 
     compare_markers(res, pd.read_csv(markers_path)).to_csv(results_dir / "marker_comparison.csv", index=False)
     print(f"done: PCA silhouette {sep:.3f}; {len(res)} genes tested; {len(sig)} significant "
