@@ -62,3 +62,7 @@ results/     tables and figures written by run_all.py
 report.md    2-page write-up
 docs/        design spec and implementation plan
 ```
+
+## Licence
+
+MIT, see [LICENSE](LICENSE). Data is from GEO GSE133998; please cite the original authors.
