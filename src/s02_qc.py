@@ -58,7 +58,7 @@ def run_qc(counts: pd.DataFrame, meta: pd.DataFrame, results_dir: Path = RESULTS
     corr = np.log1p(filtered).T.corr(method="spearman")
     g = sns.clustermap(corr, cmap="viridis", figsize=(7, 7),
                        row_colors=cond.map(COLORS), col_colors=cond.map(COLORS))
-    g.fig.suptitle("Sample correlation (Spearman, log1p)")
+    g.fig.suptitle("Sample correlation (Spearman, log1p)", y=1.02)
     g.savefig(results_dir / "qc_correlation.png", dpi=150)
     plt.close(g.fig)
     return filtered

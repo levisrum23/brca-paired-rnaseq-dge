@@ -18,5 +18,10 @@
 - 61,155 gene rows. The loader drops 2 rows with no values (`MUC20-OT1`, `ANK2`) and merges 2 duplicate gene rows by summing, leaving 61,151 genes.
 - Sample labels come from the GEO sample titles and are stored in `data/metadata.csv` (columns `sample, condition, patient`).
 
+## QC observations (from `results/qc_*`)
+- No library-size outliers (smallest is about 17.4 M reads, largest about 26.5 M).
+- PCA silhouette for tumor vs normal is 0.326: the groups separate mostly along PC1.
+- Patient H40's tumor and adjacent-normal samples sit close together in the PCA and cluster together in the correlation heatmap. This may mean low tumor purity or contamination in H40. It is a caveat for the report; the paired design handles patient effects.
+
 ## Sample removals
-None so far.
+None. No sample was removed.
