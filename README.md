@@ -1,7 +1,64 @@
 # Breast cancer differential gene expression
 
-Which genes and pathways differ between tumor and normal breast tissue in a public RNA-seq dataset?
+**Question:** which genes and pathways differ between tumor and normal breast tissue in a public RNA-seq dataset?
 
-Status: in progress. See `docs/superpowers/specs/` for the design and `docs/superpowers/plans/` for the plan.
+**Data:** GEO [GSE133998](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE133998): 6 patients, each with one tumor sample and one adjacent-normal sample (12 samples, raw read counts). Details, checksum and caveats are in [data/DATASET.md](data/DATASET.md).
 
-Thresholds: `PADJ_MAX = 0.05`, `LOG2FC_MIN = 1.0`, `SEED = 42` (see `src/config.py`).
+**Result summary:** 2,823 genes differ (1,041 higher and 1,782 lower in tumor). Genes higher in tumor point to immune, cell-cycle and tissue-remodeling pathways. Read the 2-page write-up in [report.md](report.md). With only 6 pairs, treat the results as exploratory.
+
+## Rerun everything
+
+Python 3.11 is needed. Create an environment from the pinned versions in `environment.yml` (conda), or with pip:
+
+```bash
+python3.11 -m venv .venv
+.venv/bin/pip install pytest==9.1.1 pandas==3.0.6 numpy==2.4.6 scikit-learn==1.9.1 matplotlib==3.11.2 seaborn==0.13.2 pydeseq2==0.5.4 gseapy==1.3.1
+```
+
+Run the whole pipeline (downloads the 6 MB file the first time, then writes everything to `results/`):
+
+```bash
+.venv/bin/python run_all.py
+```
+
+Run the tests:
+
+```bash
+.venv/bin/pytest
+```
+
+The enrichment step needs internet (it calls the Enrichr web service). Everything else works offline after the first download.
+
+## Method
+
+| Step | Script | What it does |
+|---|---|---|
+| 1 | `src/s01_download.py` | Download, SHA-256 check, load counts and metadata |
+| 2 | `src/s02_qc.py` | Filter low-count genes, library sizes, PCA, correlation heatmap |
+| 3 | `src/s03_dge.py` | PyDESeq2, design `~ patient + condition` (paired), tumor vs normal |
+| 4 | `src/s04_plots.py` | Volcano, MA plot, top-gene heatmap |
+| 5 | `src/s05_enrichment.py` | Enrichr over-representation, Hallmark and KEGG, up and down genes separately |
+| 6 | `src/s06_interpret.py` | Compare with 12 published marker directions (`data/known_markers.csv`, each with its source) |
+
+**Settings** (in `src/config.py`): significant means adjusted p < 0.05 and |log2 fold change| > 1. Random seed 42. Low-count filter: a gene needs at least 10 reads in total and at least 1 read in 3 or more samples.
+
+**Checks built in:** `run_all.py` stops if tumor and normal do not separate in the PCA (silhouette must be above 0). It warns if no gene is significant. 39 tests cover the functions, and one test reruns the whole pipeline on a small synthetic dataset.
+
+## Limits
+
+- Only 6 patients. Power is limited.
+- "Normal" is tissue next to the tumor, not tissue from healthy donors.
+- Bulk tissue: differences can come from a different mix of cell types (for example immune cells or fat cells), not only from changes inside tumor cells.
+- Enrichr uses all genes in each library as background, not only the expressed genes. P-values may be a little optimistic.
+- MMP11 could not be tested (2 reads in total). See `data/DATASET.md`.
+
+## Folder
+
+```
+data/        DATASET.md, metadata.csv, known_markers.csv (raw download is not committed)
+src/         one script per step
+tests/       pytest tests
+results/     tables and figures written by run_all.py
+report.md    2-page write-up
+docs/        design spec and implementation plan
+```
