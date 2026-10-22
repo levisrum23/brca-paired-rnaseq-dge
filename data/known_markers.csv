@@ -1,0 +1,13 @@
+gene,expected_direction,source
+COL10A1,up,"Fu 2015 BMC Cancer Table 2 (doi 10.1186/s12885-015-1410-y); Makoukji 2016 Sci Rep (doi 10.1038/srep36639)"
+MMP11,up,"Fu 2015 BMC Cancer Table 2 (doi 10.1186/s12885-015-1410-y)"
+TUBB3,up,"Fu 2015 BMC Cancer Table 2 (doi 10.1186/s12885-015-1410-y)"
+MMP1,up,"Fu 2015 BMC Cancer text; Makoukji 2016 Sci Rep (doi 10.1038/srep36639)"
+COL11A1,up,"Makoukji 2016 Sci Rep (doi 10.1038/srep36639)"
+S100P,up,"Makoukji 2016 Sci Rep (doi 10.1038/srep36639)"
+LRRC15,up,"Zhang 2020 Biosci Rep (PMC7029149), GEPIA TCGA/GTEx"
+LEP,down,"Makoukji 2016 Sci Rep (doi 10.1038/srep36639)"
+ADIPOQ,down,"Makoukji 2016 Sci Rep (doi 10.1038/srep36639)"
+DLK1,down,"Fu 2015 BMC Cancer Table 2; Makoukji 2016 Sci Rep"
+OXTR,down,"Fu 2015 BMC Cancer Table 2 (doi 10.1186/s12885-015-1410-y)"
+PIGR,down,"Fu 2015 BMC Cancer Table 2 (doi 10.1186/s12885-015-1410-y)"

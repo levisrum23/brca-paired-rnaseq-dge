@@ -25,3 +25,6 @@
 
 ## Sample removals
 None. No sample was removed.
+
+## Open caveat: MMP11
+MMP11 has 2 reads in total across the 12 samples, so the low-count filter removed it and it cannot be tested. Published work (Fu 2015, BMC Cancer) reports it strongly up in tumors. The cause is unknown (possibly the gene annotation used to make this file). Report it as untestable, not as a disagreement.
