@@ -1,0 +1,13 @@
+sample,condition,patient
+H36-adj,normal,H36
+H36-cancer,tumor,H36
+H37-adj,normal,H37
+H37-cancer,tumor,H37
+H38-adj,normal,H38
+H38-cancer,tumor,H38
+H39-adj,normal,H39
+H39-cancer,tumor,H39
+H40-adj,normal,H40
+H40-cancer,tumor,H40
+H42-adj,normal,H42
+H42-cancer,tumor,H42
